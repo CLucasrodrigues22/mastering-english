@@ -3,6 +3,7 @@
 import Container from "../../Components/Container.vue";
 import PrimaryBtn from "../../Components/PrimaryBtn.vue";
 import {useForm} from "@inertiajs/vue3";
+import SessionMessages from "../../Components/SessionMessages.vue";
 
 const form = useForm({})
 
@@ -28,7 +29,7 @@ const submit = () => {
             </p>
         </div>
 
-        <p v-if="status">{{ status }}</p>
+        <SessionMessages :status="status" />
 
         <form
             @submit.prevent="submit"
