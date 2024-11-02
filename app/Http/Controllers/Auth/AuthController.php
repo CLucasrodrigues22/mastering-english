@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AuthRequest;
 use App\Services\AuthService;
 use Inertia\{Inertia, Response as InertiaResponse};
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\{RedirectResponse, Request};
 
 class AuthController extends Controller
 {
@@ -21,6 +21,7 @@ class AuthController extends Controller
 
     public function login(AuthRequest $request): RedirectResponse
     {
+        sleep(2);
         $user = $this->authService->login(
             LoginDTO::makeFromRequest($request),
         );
@@ -29,5 +30,15 @@ class AuthController extends Controller
             return redirect()->back()->withErrors([$user['message']]);
         }
         return redirect()->route('home')->with(['success' => 'You are logged in']);
+    }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        sleep(2);
+        $user = $this->authService->logout($request);
+        if($user['status'] === false) {
+            return redirect()->back()->withErrors([$user['message']]);
+        }
+        return redirect()->route('home')->with(['success' => 'You are logged out']);
     }
 }
