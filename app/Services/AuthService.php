@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTO\Auth\LoginDTO;
 use App\DTO\Auth\RegisterDTO;
 use App\Repositories\Auth\AuthRepositoryInterface;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,11 +14,16 @@ class AuthService
     public function __construct(protected AuthRepositoryInterface $authRepository)
     {}
 
-    public function register(RegisterDTO $registerDTO): bool
+    public function register(RegisterDTO $registerDTO): array
     {
         $user = $this->authRepository->register($registerDTO);
         // send verification e-mail
-        return $user;
+        event(new Registered($user['user']));
+
+        return [
+            'status' => true,
+            'message' => 'Registered successfully',
+        ];
     }
 
     public function login(LoginDTO $loginDTO): array
@@ -30,11 +36,10 @@ class AuthService
                     'password' => $loginDTO->password
                 ],
                 $loginDTO->remember)
-            )
+        )
         {
             return [
                 'status' => true,
-                'message' => 'Login successful.',
             ];
         }
         return $user;

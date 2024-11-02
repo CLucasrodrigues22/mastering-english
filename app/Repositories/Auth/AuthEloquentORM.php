@@ -14,7 +14,7 @@ class AuthEloquentORM implements AuthRepositoryInterface
     public function __construct(protected User $model)
     {}
 
-    public function register(RegisterDTO $registerDTO): bool
+    public function register(RegisterDTO $registerDTO): array
     {
         try {
             $attributes = (array) $registerDTO;
@@ -22,9 +22,14 @@ class AuthEloquentORM implements AuthRepositoryInterface
             $user = $this->model->create($attributes);
 
             Auth::login($user);
-            return true;
+            return [
+                'status' => true,
+                'user' => $user,
+            ];
         } catch (PDOException $e) {
-            return false;
+            return [
+                'status' => false,
+            ];
         }
     }
 
