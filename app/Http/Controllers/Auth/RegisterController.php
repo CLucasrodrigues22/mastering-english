@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\DTO\Auth\RegisterDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreRegisterRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\AuthService;
 use Inertia\{Inertia, Response as InertiaResponse};
+use Illuminate\Http\RedirectResponse;
 
 class RegisterController extends Controller
 {
@@ -24,7 +25,7 @@ class RegisterController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRegisterRequest $request)
+    public function store(RegisterRequest $request): RedirectResponse
     {
         sleep(2);
         $user = $this->authService->register(

@@ -21,6 +21,14 @@ import NavLink from "../Components/NavLink.vue";
                 >
                     Register
                 </NavLink>
+
+                <NavLink
+                    routeName="login"
+                    componentName="Auth/Login"
+                >
+                    Login
+                </NavLink>
+
                 <button
                     @click="switchTheme"
                     class="hover:bg-slate-700 w-6 h-6
