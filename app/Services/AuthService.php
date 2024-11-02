@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTO\Auth\LoginDTO;
 use App\DTO\Auth\RegisterDTO;
 use App\Repositories\Auth\AuthRepositoryInterface;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthService
@@ -37,5 +38,22 @@ class AuthService
             ];
         }
         return $user;
+    }
+
+    public function logout(Request $request): array
+    {
+        try {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return [
+                'status' => true,
+            ];
+        } catch (\Throwable $th)
+        {
+            return [
+                'status' => false,
+            ];
+        }
     }
 }
