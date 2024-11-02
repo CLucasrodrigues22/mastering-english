@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\{RegisterController, AuthController, EmailVerificationController};
+use App\Http\Controllers\Auth\{RegisterController, AuthController, EmailVerificationController, ResetPasswordController};
 
 
 Route::middleware('guest')->group(function () {
@@ -11,6 +11,11 @@ Route::middleware('guest')->group(function () {
     //-------------------------- Login ----------------------------//
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
+    //-------------------------- Reset password ----------------------------//
+    Route::get('/forgot-password', [ResetPasswordController::class, 'requestPassword'])->name('password.request');
+    Route::post('/forgot-password', [ResetPasswordController::class, 'sendEmail'])->name('password.email');
+    Route::get('/reset-password/{token}', [ResetPasswordController::class, 'resetForm'])->name('password.reset');
+    Route::post('/reset-password', [ResetPasswordController::class, 'resetHandler'])->name('password.update');
 });
 
 Route::middleware('auth')->group(function () {
