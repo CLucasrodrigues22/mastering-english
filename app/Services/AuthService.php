@@ -4,10 +4,13 @@ namespace App\Services;
 
 use App\DTO\Auth\LoginDTO;
 use App\DTO\Auth\RegisterDTO;
+use App\DTO\Auth\ForgotPasswordDTO;
+use App\DTO\Auth\ResetPasswordDTO;
 use App\Repositories\Auth\AuthRepositoryInterface;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 
 class AuthService
 {
@@ -38,9 +41,7 @@ class AuthService
                 $loginDTO->remember)
         )
         {
-            return [
-                'status' => true,
-            ];
+            return $user;
         }
         return $user;
     }
@@ -60,5 +61,26 @@ class AuthService
                 'status' => false,
             ];
         }
+    }
+
+    public function sendEmailForgotPassword(ForgotPasswordDTO $resetPasswordDTO): array
+    {
+        $credentials = ['email' => $resetPasswordDTO->email];
+        $status = Password::sendResetLink($credentials);
+
+        return $status === Password::RESET_LINK_SENT
+            ? [
+                'status' => true,
+                'message' => __($status)
+            ]
+            : [
+                'status' => false,
+                'message' => __($status)
+            ];
+    }
+
+    public function resetPassword(ResetPasswordDTO $resetPasswordDTO): array
+    {
+        return $resetUserPassword = $this->authRepository->resetPassword($resetPasswordDTO);
     }
 }

@@ -16,7 +16,9 @@ class AuthController extends Controller
 
     public function index(): InertiaResponse
     {
-        return Inertia::render('Auth/Login');
+        return Inertia::render('Auth/Login', [
+            'message' => session('message'),
+        ]);
     }
 
     public function login(AuthRequest $request): RedirectResponse
@@ -29,7 +31,7 @@ class AuthController extends Controller
         {
             return redirect()->back()->withErrors([$user['message']]);
         }
-        return redirect()->route('home')->with(['success' => 'You are logged in']);
+        return redirect()->route('home')->with(['message' => 'You are logged in']);
     }
 
     public function logout(Request $request): RedirectResponse
@@ -39,6 +41,6 @@ class AuthController extends Controller
         if($user['status'] === false) {
             return redirect()->back()->withErrors([$user['message']]);
         }
-        return redirect()->route('home')->with(['success' => 'You are logged out']);
+        return redirect()->route('home')->with(['message' => 'You are logged out']);
     }
 }
