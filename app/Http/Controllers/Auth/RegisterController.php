@@ -2,28 +2,24 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\DTO\Auth\RegisterDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRegisterRequest;
 use App\Http\Requests\UpdateRegisterRequest;
-use App\Models\Register;
-use Inertia\Inertia;
+use App\Services\AuthService;
+use Inertia\{Inertia, Response as InertiaResponse};
 
 class RegisterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return Inertia::render('Auth/Register');
-    }
+    public function __construct(protected AuthService $authService)
+    {}
 
     /**
-     * Show the form for creating a new resource.
+     * Display form register page.
      */
-    public function create()
+    public function index(): InertiaResponse
     {
-        //
+        return Inertia::render('Auth/Register');
     }
 
     /**
@@ -31,21 +27,28 @@ class RegisterController extends Controller
      */
     public function store(StoreRegisterRequest $request)
     {
+        sleep(2);
+        $user = $this->authService->register(
+            RegisterDTO::makeFromRequest($request),
+        );
+        if ($user === false) {
+            return back()->withErrors(['errors' => 'Registration failed. Try again later.']);
+        }
+        return redirect()->route('home');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit()
+    {
         //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Register $register)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Register $register)
+    public function show(int $id)
     {
         //
     }
@@ -53,7 +56,7 @@ class RegisterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRegisterRequest $request, Register $register)
+    public function update(UpdateRegisterRequest $request, int $id)
     {
         //
     }
@@ -61,7 +64,7 @@ class RegisterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Register $register)
+    public function destroy($id)
     {
         //
     }
