@@ -2,7 +2,7 @@
 
 namespace App\DTO\Auth;
 
-use App\Http\Requests\StoreRegisterRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 
 class RegisterDTO
 {
@@ -12,7 +12,7 @@ class RegisterDTO
         public string $password,
     ){}
 
-    public static function makeFromRequest(StoreRegisterRequest $request): self
+    public static function makeFromRequest(RegisterRequest $request): self
     {
         return new self(
             $request->name,
