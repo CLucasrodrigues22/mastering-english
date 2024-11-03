@@ -13,7 +13,12 @@ class ListingEloquentORM implements ListingRepositoryInterface
     public function all(Request $request): array
     {
         try {
-            $listings = $this->model->with('user')->paginate(6);
+            $listings = $this->model
+                ->with('user')
+                ->filter(request(['search', 'user_id']))
+                ->latest()
+                ->paginate(6)
+                ->withQueryString();
 
             return [
                 'success' => true,
