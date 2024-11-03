@@ -7,7 +7,8 @@ APP_NAME=trotz_web
 default: run-docker-up
 
 run-docker-up:
-	@docker-compose up -d && \
+	@npm install && \
+	docker-compose up -d && \
 	docker-compose exec -T app-trotz bash -c "composer update && \
 	php artisan migrate && \
 	php artisan key:generate && \
