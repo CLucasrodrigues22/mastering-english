@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\Profile\ProfileDeleteAccountDTO;
 use App\DTO\Profile\ProfileUpdateInfoDTO;
 use App\DTO\Profile\ProfileUpdatePasswordDTO;
 use App\Http\Requests\ProfileRequest;
@@ -30,7 +31,7 @@ class ProfileController extends Controller
             ProfileUpdateInfoDTO::makeFromRequestUpdateInfo($request),
         );
 
-        if($profile) {
+        if($profile['status'] === true) {
             return back()->with(['update_info_message' => $profile['message']]);
         }
 
@@ -46,5 +47,18 @@ class ProfileController extends Controller
             return back()->with(['update_pwd_message' => $resetPwd['message']]);
         }
         return back()->withErrors(['update_pwd_message' => 'Failed to update password.']);
+    }
+
+    public function destroy(ProfileRequest $request): RedirectResponse
+    {
+        $profile = $this->profileService->deleteAccount(
+            ProfileDeleteAccountDTO::makeFromRequestDeleteAccount($request),
+        );
+
+        if($profile['status'] === true)
+        {
+            return redirect()->route('home')->with(['delete_account_message' => $profile['message']]);
+        }
+        return back()->withErrors(['delete_account_message' => $profile['message']]);
     }
 }

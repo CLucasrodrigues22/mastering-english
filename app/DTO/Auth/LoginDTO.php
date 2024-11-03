@@ -7,9 +7,9 @@ use App\Http\Requests\Auth\AuthRequest;
 class LoginDTO
 {
     public function __construct(
-        public string $email,
-        public string $password,
-        public bool|null   $remember,
+        public string    $email,
+        public string    $password,
+        public bool|null $remember,
     )
     {}
 

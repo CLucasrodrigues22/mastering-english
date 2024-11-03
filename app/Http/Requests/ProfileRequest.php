@@ -22,12 +22,20 @@ class ProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-        if($this->route()->action['as'] === "profile.update.password")
+        if($this->method() === 'PUT')
         {
             return [
                 'id' => 'required|integer|exists:users,id',
                 'current_password' => 'required|string|current_password',
                 'password' => 'required|string|confirmed',
+            ];
+        }
+
+        if($this->method() === 'DELETE')
+        {
+            return [
+                'id' => 'required|integer|exists:users,id',
+                'password' => 'required|string',
             ];
         }
 
