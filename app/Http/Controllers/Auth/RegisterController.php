@@ -34,6 +34,6 @@ class RegisterController extends Controller
         if ($user === false) {
             return back()->withErrors(['errors' => 'Registration failed. Try again later.']);
         }
-        return redirect()->route('home');
+        return redirect()->route('dashboard');
     }
 }
