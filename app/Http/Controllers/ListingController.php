@@ -21,7 +21,7 @@ class ListingController extends Controller
         $listings = $this->listingService->getAll($request);
         return Inertia::render('Home', [
             'listings' => $listings['data'],
-            'message' => session('message'),
+            'searchTerms' => $request->search,
         ]);
     }
 
