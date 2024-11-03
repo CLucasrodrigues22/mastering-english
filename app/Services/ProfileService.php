@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTO\Profile\ProfileUpdateInfoDTO;
+use App\DTO\Profile\ProfileUpdatePasswordDTO;
 use App\Repositories\Profile\ProfileRepositoryInterface;
 
 class ProfileService
@@ -13,5 +14,10 @@ class ProfileService
     public function updateInfo(ProfileUpdateInfoDTO $dto): array
     {
         return $this->profileRepository->updateInfo($dto);
+    }
+
+    public function updatePassword(ProfileUpdatePasswordDTO $dto): array
+    {
+        return $this->profileRepository->updatePassword($dto);
     }
 }

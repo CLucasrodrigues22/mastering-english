@@ -10,7 +10,7 @@ import { router, useForm } from "@inertiajs/vue3";
 const props = defineProps({
     user: Object,
     status: String,
-    message: String,
+    update_info_message: String,
 });
 
 const form = useForm({
@@ -39,6 +39,7 @@ const resendEmail = (e) => {
         </div>
 
         <ErrorMessages :errors="form.errors" />
+        <SessionMessages :message="update_info_message" />
 
         <form
             @submit.prevent="form.patch(route('profile.update.info'))"
@@ -57,7 +58,7 @@ const resendEmail = (e) => {
                 class="w-1/2"
                 v-model="form.email"
             />
-            <SessionMessages :message="message" />
+
             <div v-if="user.email_verified_at === null">
                 <SessionMessages :status="status" />
 

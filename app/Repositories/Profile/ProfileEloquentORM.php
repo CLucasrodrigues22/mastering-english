@@ -3,7 +3,9 @@
 namespace App\Repositories\Profile;
 
 use App\DTO\Profile\ProfileUpdateInfoDTO;
+use App\DTO\Profile\ProfileUpdatePasswordDTO;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileEloquentORM implements ProfileRepositoryInterface
 {
@@ -36,6 +38,32 @@ class ProfileEloquentORM implements ProfileRepositoryInterface
             return [
               'status' => false,
               'message' => 'Something went wrong! Please try again later.',
+            ];
+        }
+    }
+
+    public function updatePassword(ProfileUpdatePasswordDTO $dto): array
+    {
+        try {
+            $profile = $this->model->find($dto->id);
+            if(!$profile) {
+                return [
+                    'status' => false,
+                    'message' => 'Profile not found.',
+                ];
+            }
+            $profile->update([
+                'password' => Hash::make($dto->password),
+            ]);
+            return [
+                'status' => true,
+                'message' => 'Password updated successfully.',
+            ];
+        } catch (\PDOException $e)
+        {
+            return [
+                'status' => false,
+                'message' => 'Something went wrong! Please try again later.',
             ];
         }
     }
