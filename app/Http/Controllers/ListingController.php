@@ -4,18 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreListingRequest;
 use App\Http\Requests\UpdateListingRequest;
-use App\Models\Listing;
+use App\Services\ListingService;
 use Illuminate\Http\Request;
 use Inertia\{Inertia, Response as InertiaResponse};
 
 class ListingController extends Controller
 {
+    public function __construct(protected ListingService $listingService)
+    {}
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request): InertiaResponse
     {
-        return Inertia::render('Home');
+        $listings = $this->listingService->getAll($request);
+        return Inertia::render('Home', [
+            'listings' => $listings['data'],
+            'message' => session('message'),
+        ]);
     }
 
     /**
