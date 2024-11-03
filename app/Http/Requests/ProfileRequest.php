@@ -22,6 +22,15 @@ class ProfileRequest extends FormRequest
      */
     public function rules(): array
     {
+        if($this->route()->action['as'] === "profile.update.password")
+        {
+            return [
+                'id' => 'required|integer|exists:users,id',
+                'current_password' => 'required|string|current_password',
+                'password' => 'required|string|confirmed',
+            ];
+        }
+
         $rules = [
             'id' => 'integer|exists:users,id',
             'name' => 'required|string|max:255',

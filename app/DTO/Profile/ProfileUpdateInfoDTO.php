@@ -12,7 +12,7 @@ class ProfileUpdateInfoDTO
         public string $email,
     ){}
 
-    public static function makeFromRequest(ProfileRequest $request): self
+    public static function makeFromRequestUpdateInfo(ProfileRequest $request): self
     {
         return new self(
             $request->id,
