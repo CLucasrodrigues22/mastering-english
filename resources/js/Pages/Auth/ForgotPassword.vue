@@ -2,7 +2,7 @@
 
 import Container from "../../Components/Container.vue";
 import InputField from "../../Components/InputField.vue";
-import PrimaryBtn from "../../Components/PrimaryBtn.vue";
+import PrimaryBtn from "../../Components/Button.vue";
 import {useForm} from "@inertiajs/vue3";
 import ErrorMessages from "../../Components/ErrorMessages.vue";
 import SessionMessages from "../../Components/SessionMessages.vue";
