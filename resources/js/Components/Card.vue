@@ -5,7 +5,6 @@ defineProps({
 </script>
 
 <template>
-    {{console.log(listing)}}
     <div
         class="bg-white rounded-lg shadow-lg overflow-hidden dark:bg-slate-800 h-full flex flex-col justify-between"
     >
