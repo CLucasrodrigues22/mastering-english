@@ -4,12 +4,12 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\{
     DashboardController,
-    ProfileController
+    ProfileController,
+    ListingController
 };
 
+Route::get('/', [ListingController::class, 'index'])->name('home');
 require __DIR__. '/auth.php';
-
-Route::inertia('/', 'Home')->name('home');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])
@@ -25,3 +25,4 @@ Route::middleware(['auth'])->group(function () {
         ->name('profile.destroy');
 });
 
+Route::resource('listing', ListingController::class)->except('index');

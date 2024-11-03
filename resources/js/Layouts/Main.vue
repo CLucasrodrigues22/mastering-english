@@ -46,6 +46,7 @@ const show = ref(false);
                         </Link>
 
                         <Link
+                            :href="route('dashboard')"
                             class="block w-full px-6 py-3 hover:bg-slate-700 text-left"
                         >
                             Dashboard
