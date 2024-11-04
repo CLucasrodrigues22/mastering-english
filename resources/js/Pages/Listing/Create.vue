@@ -7,6 +7,11 @@ import ImageUpload from "../../Components/ImageUpload.vue";
 import ErrorMessages from "../../Components/ErrorMessages.vue";
 import Button from "../../Components/Button.vue";
 import { useForm } from "@inertiajs/vue3";
+import SessionMessages from "../../Components/SessionMessages.vue";
+
+defineProps({
+  info_list_create: Object,
+})
 
 const form = useForm({
     title: null,
@@ -16,6 +21,10 @@ const form = useForm({
     link: null,
     image: null,
 });
+
+const submit = () => {
+    form.post(route('listing.store'))
+}
 </script>
 
 <template>
@@ -27,8 +36,17 @@ const form = useForm({
         </div>
 
         <ErrorMessages :errors="form.errors" />
+        <SessionMessages
+            v-if="info_list_create.message"
+            :color_txt="info_list_create.status === false ? 'text-red-500' : 'text-green-500'"
+            :message="info_list_create.message"
+        />
 
-        <form class="grid grid-cols-2 gap-6">
+
+      <form
+            @submit.prevent="submit"
+            class="grid grid-cols-2 gap-6"
+        >
             <div class="space-y-6">
                 <InputField
                     label="Title"

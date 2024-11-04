@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Listing;
 
+use App\DTO\Listing\ListingCreateDTO;
 use App\Models\Listing;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -33,6 +34,29 @@ class ListingEloquentORM implements ListingRepositoryInterface
             return [
                 'status' => false,
                 'message' => 'Failed to retrieve listing data.',
+            ];
+        }
+    }
+
+    public function create(ListingCreateDTO $dto, string $imagePath = null): array
+    {
+        try {
+            $attributes = (array) $dto;
+            $attributes['user_id'] = auth()->id();
+            if($imagePath) {
+                $attributes['image'] = $imagePath;
+            }
+            $this->model->create($attributes);
+
+            return [
+                'status' => true,
+                'message' => 'Listing has been created successfully.',
+            ];
+        } catch (\Exception $e)
+        {
+            return [
+                'status' => false,
+                'message' => 'Failed to create listing.',
             ];
         }
     }
