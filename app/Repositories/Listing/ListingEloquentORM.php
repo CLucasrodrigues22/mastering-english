@@ -29,14 +29,14 @@ class ListingEloquentORM implements ListingRepositoryInterface
                 'success' => true,
                 'data' => $listings
             ];
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return [
                 'status' => false,
                 'message' => 'Failed to retrieve listing data.',
             ];
         }
     }
+
 
     public function show(int $id): array
     {
