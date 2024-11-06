@@ -58,9 +58,12 @@ class ListingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Listing $listing)
+    public function show(int $id): InertiaResponse
     {
-        //
+        $list = $this->listingService->show($id);
+        return Inertia::render('Listing/Show', [
+            'listing' => $list['data']
+        ]);
     }
 
     /**

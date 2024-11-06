@@ -17,6 +17,11 @@ class ListingService
         return $this->listingRepository->all($request);
     }
 
+    public function show(int $id): array
+    {
+        return $this->listingRepository->show($id);
+    }
+
     public function create(ListingCreateDTO $dto): array
     {
         $imagePath = null;

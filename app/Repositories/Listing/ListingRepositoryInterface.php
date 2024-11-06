@@ -8,5 +8,6 @@ use Illuminate\Http\Request;
 interface ListingRepositoryInterface
 {
     public function all(Request $request): array;
+    public function show(int $id): array;
     public function create(ListingCreateDTO $dto, string $imagePath = null): array;
 }

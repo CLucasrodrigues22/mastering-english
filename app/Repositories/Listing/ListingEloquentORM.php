@@ -38,6 +38,30 @@ class ListingEloquentORM implements ListingRepositoryInterface
         }
     }
 
+    public function show(int $id): array
+    {
+        try {
+            $list = $this->model->with('user')->find($id);
+            if (!$list) {
+                return [
+                    'status' => false,
+                    'message' => 'List not found.',
+                ];
+            }
+
+            return [
+                'status' => true,
+                'data' => $list->with('user')->first()
+            ];
+        } catch (\Exception $e)
+        {
+            return [
+                'status' => false,
+                'message' => 'Failed to retrieve listing data.',
+            ];
+        }
+    }
+
     public function create(ListingCreateDTO $dto, string $imagePath = null): array
     {
         try {
