@@ -1,5 +1,6 @@
 <script setup>
-import {router} from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
+import {ref} from "vue";
 
 const params = route().params;
 
@@ -7,21 +8,34 @@ defineProps({
     listing: Object,
 });
 
+// Mantenha um array de tags selecionadas
+const selectedTags = ref(params.tag ? params.tag.split(',') : []);
+
 const selectUser = (id) => {
     router.get(route('home'), {
         user_id: id,
         search: params.search,
-        tag: params.tag,
-    })
-}
+        tag: selectedTags.value.join(','),
+    });
+};
 
 const selectTag = (tag) => {
+    // Verifique se a tag já está na lista
+    if (selectedTags.value.includes(tag)) {
+        // Se já estiver selecionada, remova
+        selectedTags.value = selectedTags.value.filter((t) => t !== tag);
+    } else {
+        // Caso contrário, adicione à lista
+        selectedTags.value.push(tag);
+    }
+
+    // Atualize os parâmetros da rota com as tags selecionadas
     router.get(route('home'), {
         user_id: params.user_id,
         search: params.search,
-        tag: tag
-    })
-}
+        tag: selectedTags.value.join(','),
+    });
+};
 </script>
 
 <template>
@@ -65,7 +79,11 @@ const selectTag = (tag) => {
             <div v-for="tag in listing.tags.split(',')" :key="tag">
                 <button
                     @click="selectTag(tag)"
-                    class="bg-slate-500 text-white px-2 py-px rounded-full hover:bg-slate-700 dark:hover:bg-slate-900"
+                    :class="{
+                        'bg-slate-700 dark:bg-slate-900': selectedTags.includes(tag),
+                        'bg-slate-500': !selectedTags.includes(tag),
+                    }"
+                    class="text-white px-2 py-px rounded-full hover:bg-slate-700 dark:hover:bg-slate-900"
                 >
                     {{ tag }}
                 </button>

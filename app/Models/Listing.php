@@ -29,23 +29,23 @@ class Listing extends Model
 
     public function scopeFilter($query, array $filters): void
     {
-        if($filters['search'] ?? false)
-        {
+        if ($filters['search'] ?? false) {
             $query->where(function ($q) {
                 $q
-                    ->where('title', 'like', "%". request('search') ."%")
-                    ->orWhere('desc', 'like', "%". request('search') ."%");
+                    ->where('title', 'like', "%" . request('search') . "%")
+                    ->orWhere('desc', 'like', "%" . request('search') . "%");
             });
         }
 
-        if($filters['user_id'] ?? false)
-        {
+        if ($filters['user_id'] ?? false) {
             $query->where('user_id', request('user_id'));
         }
 
-        if($filters['tag'] ?? false)
-        {
-            $query->where('tags', 'like', "%". request('tag') ."%");
+        if ($filters['tag'] ?? false) {
+            $tags = explode(',', request('tag')); // Separando as tags por vírgula
+            foreach ($tags as $tag) {
+                $query->where('tags', 'like', "%{$tag}%");
+            }
         }
     }
 }
