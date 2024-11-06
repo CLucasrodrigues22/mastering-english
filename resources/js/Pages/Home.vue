@@ -61,7 +61,7 @@ const removeTag = (tag) => {
                 v-if="params.search"
                 :href="route('home', { ...params, search: null, page: null })"
             >
-                {{ params.search }}
+                {{ params.search.substring(0, 7) }}...
                 <i class="fa-solid fa-xmark"></i>
             </Link>
 
@@ -72,7 +72,7 @@ const removeTag = (tag) => {
                 v-if="params.user_id"
                 :href="route('home', { ...params, user_id: null, page: null })"
             >
-                {{ username }}
+                {{ username.substring(0, 7) }}...
                 <i class="fa-solid fa-xmark"></i>
             </Link>
         </div>
