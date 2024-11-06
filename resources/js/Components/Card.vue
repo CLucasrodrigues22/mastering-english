@@ -35,7 +35,7 @@ const selectTag = (tag) => {
                     :src="
                         listing.image
                             ? `${listing.image}`
-                            : '/storage/images/listings/default.jpg'
+                            : 'assets/images/defaults/listing-default.jpg'
                     "
                     class="w-full h-48 object-cover object-center bg-slate-300"
                     alt=""
