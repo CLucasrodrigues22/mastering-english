@@ -17,6 +17,7 @@ class Listing extends Model
         'email',
         'link',
         'image',
+        'user_id',
         'approved',
     ];
 
