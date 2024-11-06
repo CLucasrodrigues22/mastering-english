@@ -14,7 +14,7 @@ defineProps({
                 :src="
                     listing.image
                         ? `${listing.image}`
-                        : '/storage/images/listings/default.jpg'
+                        : '/assets/images/defaults/listing-default.jpg'
                 "
                 class="w-full h-full object-cover object-center"
                 alt=""
