@@ -38,7 +38,17 @@ const removeTag = (tag) => {
 
 <template>
     <Head title="- Latest Listings"/>
-    <div class="flex items-center justify-between mb-4">
+    <!-- Exibe o botão Limpar Filtro apenas se algum filtro estiver ativo -->
+    <div v-if="params.search || params.user_id || params.tag">
+        <Link
+            class="px-2 py-2 rounded-md bg-gray-500 text-white items-center gap-2"
+            :href="route('home')"
+        >
+            Clear Filters
+            <i class="fa-solid fa-broom"></i>
+        </Link>
+    </div>
+    <div class="flex items-center justify-between mt-4 mb-4">
         <div class="flex items-center gap-2">
             <!-- Exibir links de tags se houver -->
             <span class="md:m-1">Tags:</span>
