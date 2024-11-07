@@ -1,9 +1,18 @@
 <script setup>
 import Container from "../../Components/Container.vue";
+import {router} from "@inertiajs/vue3";
+import SessionMessages from "../../Components/SessionMessages.vue";
 
-defineProps({
+const props = defineProps({
     listing: Object,
+    message: String,
 })
+
+const deleteListing = () => {
+  if(confirm("Are you sure you want to delete this list?")){
+    router.delete(route("listing.destroy", props.listing.id))
+  }
+}
 </script>
 
 <template>
@@ -13,7 +22,7 @@ defineProps({
             <img
                 :src="
                     listing.image
-                        ? `${listing.image}`
+                        ? `/storage/${listing.image}`
                         : '/assets/images/defaults/listing-default.jpg'
                 "
                 class="w-full h-full object-cover object-center"
@@ -28,7 +37,24 @@ defineProps({
                     <p class="text-slate-400 w-full border-b">Listing detail</p>
 
                     <!-- Edit and delete buttons -->
-                    <div>edit and delete soon</div>
+                    <div class="pl-4 flex items-center gap-4">
+                      <Link
+                          :href="route('listing.edit', listing.id)"
+                          title="Editar"
+                          class="bg-blue-500 rounded-md text-white px-3 py-2 hover:outline outline-blue-500
+outline-offset-2"
+                      >
+
+                        Edit
+                      </Link>
+                      <Link
+                          @click="deleteListing"
+                          class="bg-red-500 rounded-md text-white px-5 py-2 hover:outline outline-red-500
+outline-offset-2"
+                      >
+                        Delete
+                      </Link>
+                    </div>
                 </div>
 
                 <h3 class="font-bold text-2xl mb-4">{{ listing.title }}</h3>
@@ -85,6 +111,7 @@ defineProps({
                     </div>
                 </div>
             </div>
+            <SessionMessages :message="message" color_txt="text-red-500"/>
         </div>
     </Container>
 </template>

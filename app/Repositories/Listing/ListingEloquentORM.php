@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Listing;
 
-use App\DTO\Listing\ListingCreateDTO;
+use App\DTO\Listing\ListingDTO;
 use App\Models\Listing;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -48,10 +48,9 @@ class ListingEloquentORM implements ListingRepositoryInterface
                     'message' => 'List not found.',
                 ];
             }
-
             return [
                 'status' => true,
-                'data' => $list->with('user')->first()
+                'data' => $list->toArray()
             ];
         } catch (\Exception $e)
         {
@@ -62,7 +61,7 @@ class ListingEloquentORM implements ListingRepositoryInterface
         }
     }
 
-    public function create(ListingCreateDTO $dto, string $imagePath = null): array
+    public function create(ListingDTO $dto, string $imagePath = null): array
     {
         try {
             $attributes = (array) $dto;
@@ -81,6 +80,59 @@ class ListingEloquentORM implements ListingRepositoryInterface
             return [
                 'status' => false,
                 'message' => 'Failed to create listing.',
+            ];
+        }
+    }
+
+    public function update(int $id, ListingDTO $dto, string $imagePath = null): array
+    {
+        try {
+            $attributes = (array) $dto;
+            $list = $this->model->find($id);
+
+            if ($list) {
+                if ($imagePath) {
+                    $attributes['image'] = $imagePath;
+                }
+                $list->update($attributes);
+
+                return [
+                    'status' => true,
+                    'message' => 'Listing has been updated successfully.',
+                ];
+            }
+
+            return [
+                'status' => false,
+                'message' => 'Listing not found.',
+            ];
+        } catch (\Exception $e) {
+            return [
+                'status' => false,
+                'message' => 'Failed to update listing.',
+            ];
+        }
+    }
+
+    public function delete(int $id): array
+    {
+        try {
+            $list = $this->model->find($id);
+            if ($list) {
+                $list->delete();
+                return [
+                    'status' => true,
+                    'message' => 'Listing has been deleted successfully.',
+                ];
+            }
+            return [
+                'status' => false,
+                'message' => 'Listing not found.',
+            ];
+        } catch (\Exception $e) {
+            return [
+                'status' => false,
+                'message' => 'Failed to delete listing.',
             ];
         }
     }

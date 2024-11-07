@@ -7,14 +7,24 @@ use Illuminate\Support\Facades\Storage;
 
 class ListingsHelper
 {
-    public static function saveImage(UploadedFile $image, string $directory): string
+    public static function saveFile(UploadedFile $image, string $directory): string
     {
-        // Define o caminho completo para salvar a imagem
         $path = $image->store($directory, 'public');
 
-        // Retorna o caminho para uso posterior
-        return Storage::url($path);
+        return $directory . '/' . basename($path);
     }
+
+
+    public static function deleteImage(string $imagePath): bool
+    {
+        if (Storage::disk('public')->exists($imagePath)) {
+            return Storage::disk('public')->delete($imagePath);
+        }
+
+        return false;
+    }
+
+
 
     public static function prepareTags(string $tags): string
     {

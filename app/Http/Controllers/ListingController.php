@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\Listing\ListingCreateDTO;
-use App\Http\Requests\StoreListingRequest;
+use App\DTO\Listing\ListingDTO;
+use App\Http\Requests\ListingRequest;
 use App\Http\Requests\UpdateListingRequest;
 use App\Services\ListingService;
 use Illuminate\Http\{RedirectResponse, Request};
@@ -42,10 +42,10 @@ class ListingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreListingRequest $request): RedirectResponse
+    public function store(ListingRequest $request): RedirectResponse
     {
         $listing = $this->listingService->create(
-            ListingCreateDTO::makeFromRequestListingCreate($request)
+            ListingDTO::makeFromRequestListing($request)
         );
 
         return back()->with(
@@ -61,32 +61,51 @@ class ListingController extends Controller
     public function show(int $id): InertiaResponse
     {
         $list = $this->listingService->show($id);
+        if ($list['status'] === false)
+        {
+            return Inertia::render('Listing/Show', [
+                'message' => $list['message'],
+            ]);
+        }
         return Inertia::render('Listing/Show', [
-            'listing' => $list['data']
+            'listing' => $list['data'],
+            'message' => session('message'),
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Listing $listing)
+    public function edit(int $id): InertiaResponse
     {
-        //
+        return Inertia::render('Listing/Edit', [
+            'listing' => $this->listingService->show($id)['data'],
+            'edit_listing_message' => session('message'),
+            'status' => session('status'),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateListingRequest $request, Listing $listing)
+    public function update(int $id, ListingRequest $request): RedirectResponse
     {
-        //
+        $list = $this->listingService->update(
+            $id,
+            ListingDTO::makeFromRequestListing($request)
+        );
+        return back()->with(['message' => $list['message'], 'status' => $list['status']]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Listing $listing)
+    public function destroy(int $id): RedirectResponse
     {
-        //
+        $list = $this->listingService->delete($id);
+        if ($list['status'] === true) {
+            return redirect(route('home'))->with('message', $list['message']);
+        }
+        return back()->with('message', $list['message']);
     }
 }

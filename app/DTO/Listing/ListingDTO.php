@@ -2,10 +2,10 @@
 
 namespace App\DTO\Listing;
 
-use App\Http\Requests\StoreListingRequest;
+use App\Http\Requests\ListingRequest;
 use Illuminate\Http\UploadedFile;
 
-class ListingCreateDTO
+class ListingDTO
 {
     public function __construct(
         public string $title,
@@ -16,7 +16,7 @@ class ListingCreateDTO
         public ?UploadedFile $image = null
     ) {}
 
-    public static function makeFromRequestListingCreate(StoreListingRequest $request): self
+    public static function makeFromRequestListing(ListingRequest $request): self
     {
         return new self(
             $request->input('title'),
