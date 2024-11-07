@@ -60,8 +60,16 @@ class ListingController extends Controller
      */
     public function show(int $id): InertiaResponse
     {
+        $list = $this->listingService->show($id);
+        if ($list['status'] === false)
+        {
+            return Inertia::render('Listing/Show', [
+                'message' => $list['message'],
+            ]);
+        }
         return Inertia::render('Listing/Show', [
-            'listing' => $this->listingService->show($id)['data']
+            'listing' => $list['data'],
+            'message' => session('message'),
         ]);
     }
 
@@ -94,6 +102,10 @@ class ListingController extends Controller
      */
     public function destroy(int $id): RedirectResponse
     {
-        dd($id);
+        $list = $this->listingService->delete($id);
+        if ($list['status'] === true) {
+            return redirect(route('home'))->with('message', $list['message']);
+        }
+        return back()->with('message', $list['message']);
     }
 }

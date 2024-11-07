@@ -11,4 +11,5 @@ interface ListingRepositoryInterface
     public function show(int $id): array;
     public function create(ListingDTO $dto, string $imagePath = null): array;
     public function update(int $id, ListingDTO $dto, string $imagePath = null): array;
+    public function delete(int $id): array;
 }

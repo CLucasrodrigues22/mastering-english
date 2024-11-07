@@ -1,9 +1,18 @@
 <script setup>
 import Container from "../../Components/Container.vue";
+import {router} from "@inertiajs/vue3";
+import SessionMessages from "../../Components/SessionMessages.vue";
 
-defineProps({
+const props = defineProps({
     listing: Object,
+    message: String,
 })
+
+const deleteListing = () => {
+  if(confirm("Are you sure you want to delete this list?")){
+    router.delete(route("listing.destroy", props.listing.id))
+  }
+}
 </script>
 
 <template>
@@ -39,6 +48,7 @@ outline-offset-2"
                         Edit
                       </Link>
                       <Link
+                          @click="deleteListing"
                           class="bg-red-500 rounded-md text-white px-5 py-2 hover:outline outline-red-500
 outline-offset-2"
                       >
@@ -101,6 +111,7 @@ outline-offset-2"
                     </div>
                 </div>
             </div>
+            <SessionMessages :message="message" color_txt="text-red-500"/>
         </div>
     </Container>
 </template>

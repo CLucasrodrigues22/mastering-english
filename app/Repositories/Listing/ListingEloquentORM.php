@@ -41,7 +41,7 @@ class ListingEloquentORM implements ListingRepositoryInterface
     public function show(int $id): array
     {
         try {
-            $list = $this->model->with('user')->find($id)->toArray();
+            $list = $this->model->with('user')->find($id);
             if (!$list) {
                 return [
                     'status' => false,
@@ -50,7 +50,7 @@ class ListingEloquentORM implements ListingRepositoryInterface
             }
             return [
                 'status' => true,
-                'data' => $list
+                'data' => $list->toArray()
             ];
         } catch (\Exception $e)
         {
@@ -110,6 +110,29 @@ class ListingEloquentORM implements ListingRepositoryInterface
             return [
                 'status' => false,
                 'message' => 'Failed to update listing.',
+            ];
+        }
+    }
+
+    public function delete(int $id): array
+    {
+        try {
+            $list = $this->model->find($id);
+            if ($list) {
+                $list->delete();
+                return [
+                    'status' => true,
+                    'message' => 'Listing has been deleted successfully.',
+                ];
+            }
+            return [
+                'status' => false,
+                'message' => 'Listing not found.',
+            ];
+        } catch (\Exception $e) {
+            return [
+                'status' => false,
+                'message' => 'Failed to delete listing.',
             ];
         }
     }

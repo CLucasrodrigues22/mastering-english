@@ -42,16 +42,27 @@ class ListingService
 
     public function update(int $id, ListingDTO $dto): array
     {
-        $imagePath = null;
+        $imagePath = $this->show($id)['data']['image'];
+
         if ($dto->image) {
-            $imageCurrent = $this->show($id)['data']['image'];
-            if($imageCurrent)
-            {
-                $this->listingHelper->deleteImage($imageCurrent);
+            if ($imagePath) {
+                $this->listingHelper->deleteImage($imagePath);
             }
             $imagePath = $this->listingHelper->saveFile($dto->image, "/images/listings");
         }
 
         return $this->listingRepository->update($id, $dto, $imagePath);
+    }
+
+
+    public function delete(int $id): array
+    {
+        $image = $this->show($id);
+        if($image['status'] === false)
+        {
+            return $image;
+        }
+        $this->listingHelper->deleteImage($image['data']['image']);
+        return $this->listingRepository->delete($id);
     }
 }
