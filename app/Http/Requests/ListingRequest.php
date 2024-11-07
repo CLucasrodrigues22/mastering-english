@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreListingRequest extends FormRequest
+class ListingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class StoreListingRequest extends FormRequest
             'title' => 'required|string',
             'desc' => 'required|string',
             'tags' => 'nullable|string',
-            'email' => 'nullable|email|unique:listings,email',
+            'email' => 'nullable|email',
             'link' => 'nullable|url',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
         ];
