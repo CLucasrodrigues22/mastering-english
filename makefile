@@ -13,6 +13,5 @@ run-docker-up:
 	npm run build && \
 	php artisan migrate && \
 	php artisan key:generate && \
+	php artisan storage:link && \
 	php artisan db:seed"
-
-
