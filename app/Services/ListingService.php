@@ -62,7 +62,10 @@ class ListingService
         {
             return $image;
         }
-        $this->listingHelper->deleteImage($image['data']['image']);
+        if($image['data']['image'] !== null)
+        {
+            $this->listingHelper->deleteImage($image['data']['image']);
+        }
         return $this->listingRepository->delete($id);
     }
 }
