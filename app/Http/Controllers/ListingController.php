@@ -3,14 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\DTO\Listing\ListingDTO;
+use App\Http\Middleware\NotSuspended;
 use App\Http\Requests\ListingRequest;
-use App\Http\Requests\UpdateListingRequest;
+use App\Models\Listing;
 use App\Services\ListingService;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\{RedirectResponse, Request};
 use Inertia\{Inertia, Response as InertiaResponse};
 
-class ListingController extends Controller
+class ListingController extends Controller implements HasMiddleware
 {
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware(
+                ['auth', 'verified', NotSuspended::class],
+                except: ['index', 'show'],
+            )
+        ];
+    }
+
     public function __construct(protected ListingService $listingService)
     {}
 
@@ -31,6 +47,8 @@ class ListingController extends Controller
      */
     public function create(): InertiaResponse
     {
+        Gate::authorize('create', Listing::class);
+
         return Inertia::render('Listing/Create', [
             'info_list_create' => [
                 'message' => session('message'),
@@ -44,6 +62,8 @@ class ListingController extends Controller
      */
     public function store(ListingRequest $request): RedirectResponse
     {
+        Gate::authorize('create', Listing::class);
+
         $listing = $this->listingService->create(
             ListingDTO::makeFromRequestListing($request)
         );
@@ -58,28 +78,26 @@ class ListingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id): InertiaResponse
+    public function show(Listing $listing): InertiaResponse
     {
-        $list = $this->listingService->show($id);
-        if ($list['status'] === false)
-        {
-            return Inertia::render('Listing/Show', [
-                'message' => $list['message'],
-            ]);
-        }
+        Gate::authorize('view', $listing);
+
         return Inertia::render('Listing/Show', [
-            'listing' => $list['data'],
-            'message' => session('message'),
+            'listing' => $listing,
+            'user' => $listing->user->only(['id', 'name']),
+            'canModify' => Auth::user() ? Auth::user()->can('modify', $listing) : false,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(int $id): InertiaResponse
+    public function edit(Listing $listing): InertiaResponse
     {
+        Gate::authorize('modify', $listing);
+
         return Inertia::render('Listing/Edit', [
-            'listing' => $this->listingService->show($id)['data'],
+            'listing' => $this->listingService->show($listing->id)['data'],
             'edit_listing_message' => session('message'),
             'status' => session('status'),
         ]);
@@ -88,10 +106,12 @@ class ListingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(int $id, ListingRequest $request): RedirectResponse
+    public function update(Listing $listing, ListingRequest $request): RedirectResponse
     {
+        Gate::authorize('modify', $listing);
+
         $list = $this->listingService->update(
-            $id,
+            $listing->id,
             ListingDTO::makeFromRequestListing($request)
         );
         return back()->with(['message' => $list['message'], 'status' => $list['status']]);
@@ -100,9 +120,10 @@ class ListingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id): RedirectResponse
+    public function destroy(Listing $listing): RedirectResponse
     {
-        $list = $this->listingService->delete($id);
+        Gate::authorize('modify', $listing);
+        $list = $this->listingService->delete($listing->id);
         if ($list['status'] === true) {
             return redirect(route('home'))->with('message', $list['message']);
         }

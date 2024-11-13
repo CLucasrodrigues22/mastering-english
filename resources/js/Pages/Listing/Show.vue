@@ -5,7 +5,8 @@ import SessionMessages from "../../Components/SessionMessages.vue";
 
 const props = defineProps({
     listing: Object,
-    message: String,
+    user: Object,
+    canModify: Boolean,
 })
 
 const deleteListing = () => {
@@ -37,7 +38,7 @@ const deleteListing = () => {
                     <p class="text-slate-400 w-full border-b">Listing detail</p>
 
                     <!-- Edit and delete buttons -->
-                    <div class="pl-4 flex items-center gap-4">
+                    <div v-if="canModify" class="pl-4 flex items-center gap-4">
                       <Link
                           :href="route('listing.edit', listing.id)"
                           title="Editar"
@@ -88,10 +89,10 @@ outline-offset-2"
                     <i class="fa-solid fa-user"></i>
                     <p>Listed by:</p>
                     <Link
-                        :href="route('home', {user_id: listing.user.id})"
+                        :href="route('home', {user_id: user.id})"
                         class="text-link"
                     >
-                        {{listing.user.name}}
+                        {{user.name}}
                     </Link>
                 </div>
             </div>
