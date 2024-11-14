@@ -8,8 +8,16 @@ use Illuminate\Http\{RedirectResponse, Request};
 
 class DashboardController extends Controller
 {
-    public function index(): InertiaResponse
+    public function index(Request $request): InertiaResponse
     {
-        return Inertia::render('Dashboard');
+        $listings =
+            $request->user()->role !== 'suspended' ?
+            $request->user()->listings()->latest()->paginate(10) :
+            null;
+
+        return Inertia::render('Dashboard', [
+            'listings' => $listings,
+            'status' => session('status'),
+        ]);
     }
 }
