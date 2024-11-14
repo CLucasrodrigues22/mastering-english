@@ -94,7 +94,8 @@ class ListingEloquentORM implements ListingRepositoryInterface
                 if ($imagePath) {
                     $attributes['image'] = $imagePath;
                 }
-                $list->update($attributes);
+
+                $list->update([...$attributes, 'approved' => false]);
 
                 return [
                     'status' => true,
