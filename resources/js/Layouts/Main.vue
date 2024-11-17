@@ -1,103 +1,79 @@
 <script setup>
 import { switchTheme } from "../theme";
-import NavLink from "../Components/NavLink.vue";
 import { usePage } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 
+// Acesso à página e ao usuário
 const page = usePage();
 const user = computed(() => page.props.auth.user);
 
+// Estado do menu
 const show = ref(false);
+
+// Alternância do menu para telas pequenas
+const toggleMenu = () => {
+    show.value = !show.value;
+};
 </script>
 
 <template>
-    <!-- overlay -->
+    <!-- Overlay para fechar o menu quando clicado fora -->
     <div v-show="show" @click="show = false" class="fixed inset-0 z-40"></div>
 
     <header class="bg-slate-800 text-white">
-        <nav
-            class="p-6 mx-auto max-w-screen-lg flex items-center justify-between"
-        >
-            <NavLink routeName="home" componentName="Home">Mastering English</NavLink>
+        <nav class="p-4">
+            <div class="max-w-7xl mx-auto flex justify-between items-center px-6">
+                <!-- Logo -->
+                <a href="#" class="text-2xl font-bold">Logo</a>
 
-            <div class="flex items-center space-x-6">
-                <!-------------- Auth -------------->
-                <div v-if="user" class="relative flex items-center gap-4">
-                    <div
-                        @click="show = !show"
-                        class="flex items-center gap-2 px-3 py-1 rounded-lg hover:bg-slate-700 cursor-pointer"
-                        :class="{ 'bg-slate-700': show }"
-                    >
-                        <p>{{ user.name }}</p>
-                        <i class="fa-solid fa-angle-down"></i>
-                    </div>
-
-                    <Link
-                        v-if="user.role === 'admin'"
-                        :href="route('admin.index')"
-                        class="hover:bg-slate-700 w-6 h-6 grid
-                        place-items-center rounded-full
-                        hover:outline outline-1 outline-white"
-                    >
-                        <i class="fa-solid fa-lock"></i>
-                    </Link>
-
-                    <!-------------- User dropdown menu -------------->
-                    <div
-                        v-show="show"
-                        @click="show = false"
-                        class="absolute z-50 top-16 right-0 bg-slate-800 text-white rounded-lg border-slate-300 border overflow-hidden w-40"
-                    >
-                        <Link
-                            :href="route('dashboard')"
-                            class="block w-full px-6 py-3 hover:bg-slate-700 text-left"
-                        >
-                            Dashboard
-                        </Link>
-                        <Link
-                            :href="route('listing.create')"
-                            class="block w-full px-6 py-3 hover:bg-slate-700 text-left"
-                        >
-                            New Listing
-                        </Link>
-                        <Link
-                            :href="route('profile.edit')"
-                            class="block w-full px-6 py-3 hover:bg-slate-700 text-left"
-                        >
-                            Profile
-                        </Link>
-
-
-                        <Link
-                            :href="route('logout')"
-                            method="post"
-                            as="button"
-                            class="block w-full px-6 py-3 hover:bg-slate-700 text-left"
-                        >
-                            Logout
-                        </Link>
-                    </div>
+                <!-- Menu para telas maiores -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white">Início</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Sobre</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Serviços</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Contato</a>
                 </div>
 
-                <!-------------- Guest -------------->
-                <div v-else class="space-x-6">
-                    <NavLink routeName="login" componentName="Auth/Login"
-                    >Login</NavLink
-                    >
-                    <NavLink routeName="register" componentName="Auth/Register"
-                    >Register</NavLink
-                    >
+                <!-- Botão de perfil e alternar tema -->
+                <div class="hidden md:block space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white">Perfil</a>
+                    <button @click="switchTheme" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-moon"></i> <!-- ícone para alternar tema -->
+                    </button>
                 </div>
 
-                <button
-                    @click="switchTheme"
-                    class="hover:bg-slate-700 w-6 h-6 grid place-items-center rounded-full hover:outline outline-1 outline-white"
-                >
-                    <i class="fa-solid fa-circle-half-stroke"></i>
-                </button>
+                <!-- Menu para telas pequenas -->
+                <div class="md:hidden flex items-center">
+                    <!-- Ícone de menu (hamburguer) -->
+                    <button @click="toggleMenu" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
             </div>
         </nav>
     </header>
+
+    <!-- Menu dropdown (para telas pequenas) -->
+    <div v-show="show" class="md:hidden bg-gray-700 text-white space-y-4 py-4 px-10">
+        <!-- Botão de perfil com destaque -->
+        <div class="grid grid-cols-2 gap-4">
+            <div class="flex items-center">
+                <a href="#" class="block text-gray-400 hover:bg-blue-600 hover:text-white py-2 rounded-md transition-all duration-300">
+                    Olá, Lucas Rod... <i class="fa-solid fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            <div class="flex items-center justify-end space-x-4">
+                <button @click="switchTheme" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-moon"></i> <!-- ícone para alternar tema -->
+                </button>
+            </div>
+        </div>
+
+        <a href="#" class="block text-gray-400 hover:text-white">Home</a>
+        <a href="#" class="block text-gray-400 hover:text-white">Sobre</a>
+        <a href="#" class="block text-gray-400 hover:text-white">Serviços</a>
+        <a href="#" class="block text-gray-400 hover:text-white">Contato</a>
+    </div>
 
     <main class="p-6 mx-auto max-w-screen-lg">
         <slot />
