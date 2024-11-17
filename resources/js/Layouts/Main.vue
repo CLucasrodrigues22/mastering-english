@@ -122,26 +122,33 @@ const closeProfileDropdown = () => {
     </header>
 
     <!-- Menu dropdown (para telas pequenas) -->
-    <div v-show="show" class="fixed top-0 left-0 right-0 bg-gray-700 text-white z-50 py-4 px-10">
+    <div v-show="show" @click="closeMenu" class="fixed top-0 left-0 right-0 bg-gray-700 text-white z-50 py-4 px-10">
         <!-- Botão de perfil com destaque -->
         <div class="grid grid-cols-2 gap-4 mb-4">
-            <div class="flex items-center">
-                <Link :href="route('profile.edit')" class="block text-gray-200 py-2" @click="closeMenu">
+            <div v-if="user" class="flex items-center">
+                <Link :href="route('profile.edit')" class="block text-gray-200 py-2">
                     Olá, <strong>{{user.name.substring(0, 7)}} ...</strong><i class="fa-solid fa-arrow-right ml-2"></i>
                 </Link>
             </div>
-            <div class="flex items-center justify-end space-x-4">
+            <div v-else class="flex items-center space-x-4">
+                <Link :href="route('login')" class="text-gray-200 hover:text-white bg-slate-600 p-1 rounded-lg">Entrar</Link>
+                <Link :href="route('register')" class="text-gray-200 hover:text-white bg-slate-600 p-1 rounded-lg">Registrar-se</Link>
+            </div>
+            <div class="flex items-center justify-end space-x-6">
                 <button @click="switchTheme" class="text-gray-200 hover:text-white">
                     <i class="fas fa-moon"></i>
+                </button>
+                <button class="text-gray-200 hover:text-white">
+                    <i class="fas fa-xmark"></i>
                 </button>
             </div>
         </div>
 
         <!-- Itens do menu com fechamento ao clicar -->
-        <Link href="#" @click="closeMenu" class="block text-gray-200 hover:text-white py-2">Início</Link>
-        <Link href="#" @click="closeMenu" class="block text-gray-200 hover:text-white py-2">Cursos</Link>
-        <Link href="#" @click="closeMenu" class="block text-gray-200 hover:text-white py-2">Sobre</Link>
-        <Link href="#" @click="closeMenu" class="block text-gray-200 hover:text-white py-2">Contato</Link>
+        <Link :href="route('home')" class="block text-gray-200 hover:text-white py-2">Início</Link>
+        <Link href="#" class="block text-gray-200 hover:text-white py-2">Cursos</Link>
+        <Link href="#" class="block text-gray-200 hover:text-white py-2">Sobre</Link>
+        <Link href="#" class="block text-gray-200 hover:text-white py-2">Contato</Link>
     </div>
 
     <main class="p-6 mx-auto max-w-screen-lg min-h-screen">
