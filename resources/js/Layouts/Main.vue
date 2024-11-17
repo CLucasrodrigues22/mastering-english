@@ -144,8 +144,26 @@ const closeProfileDropdown = () => {
         <Link href="#" @click="closeMenu" class="block text-gray-200 hover:text-white py-2">Contato</Link>
     </div>
 
-    <main class="p-6 mx-auto max-w-screen-lg">
+    <main class="p-6 mx-auto max-w-screen-lg min-h-screen">
         <slot />
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4">
+        <div class="max-w-7xl mx-auto px-6 text-center md:text-left">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <!-- Esquerda -->
+                <div class="mb-4 md:mb-0">
+                    <p class="text-sm">&copy; 2024 Mastering English. Todos os direitos reservados.</p>
+                </div>
+                <!-- Direita -->
+                <div class="space-x-4">
+                    <Link href="#" class="text-gray-400 hover:text-white text-sm">Política de Privacidade</Link>
+                    <Link href="#" class="text-gray-400 hover:text-white text-sm">Termos de Uso</Link>
+                    <Link href="#" class="text-gray-400 hover:text-white text-sm">Contato</Link>
+                </div>
+            </div>
+        </div>
+    </footer>
 </template>
 

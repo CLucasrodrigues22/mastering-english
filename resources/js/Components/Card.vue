@@ -40,10 +40,10 @@ const selectTag = (tag) => {
 
 <template>
     <div
-        class="bg-white rounded-lg shadow-lg overflow-hidden dark:bg-slate-800 h-full flex flex-col justify-between"
+        class="bg-white rounded-lg shadow-lg overflow-hidden dark:bg-slate-800 flex flex-col justify-between h-full sm:max-w-md sm:mx-auto"
     >
         <div>
-            <!-- Image -->
+            <!-- Imagem -->
             <Link :href="route('listing.show', listing.id)">
                 <img
                     :src="
@@ -51,18 +51,17 @@ const selectTag = (tag) => {
                             ? `/storage/${listing.image}`
                             : 'assets/images/defaults/listing-default.jpg'
                     "
-                    class="w-full h-48 object-cover object-center bg-slate-300"
+                    class="w-full h-48 object-cover object-center bg-slate-300 sm:h-40"
                     alt=""
                 />
             </Link>
 
-            <!-- Title & user -->
+            <!-- Título e usuário -->
             <div class="p-4">
-                <h3 class="font-bold text-xl mb-2">
+                <h3 class="font-bold text-lg mb-2 sm:text-base">
                     {{ listing.title.substring(0, 30) }}...
                 </h3>
-
-                <p>
+                <p class="text-sm">
                     Listed on
                     {{ new Date(listing.created_at).toLocaleDateString() }} by
                     <button
@@ -74,16 +73,21 @@ const selectTag = (tag) => {
                 </p>
             </div>
         </div>
+
         <!-- Tags -->
-        <div v-if="listing.tags" class="flex items-center gap-3 px-4 pb-4">
-            <div v-for="tag in listing.tags.split(',')" :key="tag">
+        <div v-if="listing.tags" class="flex flex-wrap gap-2 px-4 pb-4">
+            <div
+                v-for="tag in listing.tags.split(',')"
+                :key="tag"
+                class="text-xs"
+            >
                 <button
                     @click="selectTag(tag)"
                     :class="{
                         'bg-slate-700 dark:bg-slate-900': selectedTags.includes(tag),
                         'bg-slate-500': !selectedTags.includes(tag),
                     }"
-                    class="text-white px-2 py-px rounded-full hover:bg-slate-700 dark:hover:bg-slate-900"
+                    class="text-white px-2 py-1 rounded-full hover:bg-slate-700 dark:hover:bg-slate-900"
                 >
                     {{ tag }}
                 </button>
