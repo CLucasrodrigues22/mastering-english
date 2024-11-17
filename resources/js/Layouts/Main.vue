@@ -132,7 +132,7 @@ const closeProfileDropdown = () => {
             </div>
             <div v-else class="flex items-center space-x-4">
                 <Link :href="route('login')" class="text-gray-200 hover:text-white bg-slate-600 p-1 rounded-lg">Entrar</Link>
-                <Link :href="route('register')" class="text-gray-200 hover:text-white bg-slate-600 p-1 rounded-lg">Registrar-se</Link>
+                <Link :href="route('register')" class="text-gray-200 hover:text-white bg-slate-600 p-1 rounded-lg">Registrar</Link>
             </div>
             <div class="flex items-center justify-end space-x-6">
                 <button @click="switchTheme" class="text-gray-200 hover:text-white">

@@ -9,7 +9,7 @@ let searchParams = new URLSearchParams(window.location.search);
 const searchQuery = searchParams.get('search') || '';
 
 const clearSearch = () => {
-    searchParams = ''
+    searchParams = '';
 }
 
 const params = route().params;
@@ -46,16 +46,7 @@ const removeTag = (tag) => {
 
 <template>
     <Head title="- Latest Listings"/>
-    <!-- Exibe o botão Limpar Filtro apenas se algum filtro estiver ativo -->
-    <div class="hidden" v-if="params.search || params.user_id || params.tag">
-        <Link
-            class="px-2 py-2 rounded-md bg-gray-500 text-white items-center gap-2"
-            :href="route('home')"
-        >
-            Clear Filters
-            <i class="fa-solid fa-broom"></i>
-        </Link>
-    </div>
+
     <div class="hidden md:flex items-center justify-between mt-4 mb-4">
         <div class="flex items-center gap-2">
             <!-- Exibir links de tags se houver -->
@@ -110,6 +101,7 @@ const removeTag = (tag) => {
             </p>
         </div>
     </div>
+
     <div class="md:hidden mb-6">
         <div class="mx-auto w-4/4">
             <form @submit.prevent="search">
@@ -126,9 +118,9 @@ const removeTag = (tag) => {
                 Você pesquisou por: <strong>{{searchQuery.substring(0, 10)}}...</strong><Link :href="route('home', { ...params, search: null, page: null })"><i class="ml-1 fa-solid fa-xmark"></i></Link>
             </p>
         </div>
+
         <!-- Exibir links de tags e autores se houver -->
         <div class="mx-auto my-3 space-y-5 grid grid-cols-1">
-
             <div v-if="params.tag">
                 <span class="md:m-1">Tags:</span>
                 <div class="flex gap-2">
@@ -169,5 +161,6 @@ const removeTag = (tag) => {
             <PaginationLink :paginator="listings"/>
         </div>
     </div>
+
     <div v-else class="text-center font-bold text-xl">There are no listings</div>
 </template>
