@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpq-dev \
+    php-redis \
     && docker-php-ext-install pdo_pgsql \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd \
