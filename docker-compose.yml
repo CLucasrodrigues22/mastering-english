@@ -41,7 +41,26 @@ services:
             - ./:/var/www
             - ./docker/nginx/conf.d/:/etc/nginx/conf.d
 
+    redis-mastering-english:
+        container_name: redis-mastering-english
+        image: redis:latest
+        restart: always
+        ports:
+            - "6379:6379"
+        command: [ "redis-server", "--requirepass", "${REDIS_PASSWORD}", "--appendonly", "yes" ]
+        environment:
+            - REDIS_PASSWORD=${REDIS_PASSWORD}
+        volumes:
+            - redis-data:/data
+        healthcheck:
+            test: [ "CMD", "redis-cli", "ping" ] # Verifica se o Redis está respondendo
+            interval: 30s                      # Intervalo entre verificações
+            timeout: 5s                        # Tempo limite da resposta
+            retries: 3                         # Tentativas antes de considerar indisponível
+            start_period: 10s                  # Espera antes de iniciar verificações
+
 volumes:
+    redis-data:
     postgres:
     cache:
         driver: local
