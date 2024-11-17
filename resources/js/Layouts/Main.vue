@@ -42,10 +42,10 @@ const closeMenu = () => {
 
                 <!-- Botão de perfil e alternar tema -->
                 <div class="hidden md:block space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-white">Perfil</a>
                     <button @click="switchTheme" class="text-gray-400 hover:text-white">
                         <i class="fas fa-moon"></i> <!-- ícone para alternar tema -->
                     </button>
+                    <a href="#" class="text-gray-400 hover:text-white">Olá, Lucas Ro... <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
 
                 <!-- Menu para telas pequenas -->
@@ -64,9 +64,9 @@ const closeMenu = () => {
         <!-- Botão de perfil com destaque -->
         <div class="grid grid-cols-2 gap-4 mb-4">
             <div class="flex items-center">
-                <a href="#" class="block text-gray-400 hover:bg-blue-600 hover:text-white py-2 rounded-md transition-all duration-300">
-                    Olá, Lucas Rod... <i class="fa-solid fa-arrow-right ml-2"></i>
-                </a>
+                <Link href="#" class="block text-gray-400 hover:bg-blue-600 hover:text-white py-2 rounded-md transition-all duration-300">
+                    Olá, <strong>Lucas Ro...</strong><i class="fa-solid fa-arrow-right ml-2"></i>
+                </Link>
             </div>
             <div class="flex items-center justify-end space-x-4">
                 <button @click="switchTheme" class="text-gray-400 hover:text-white">
@@ -76,10 +76,10 @@ const closeMenu = () => {
         </div>
 
         <!-- Itens do menu com fechamento ao clicar -->
-        <a href="#" @click="closeMenu" class="block text-gray-400 hover:text-white py-2">Home</a>
-        <a href="#" @click="closeMenu" class="block text-gray-400 hover:text-white py-2">Sobre</a>
-        <a href="#" @click="closeMenu" class="block text-gray-400 hover:text-white py-2">Serviços</a>
-        <a href="#" @click="closeMenu" class="block text-gray-400 hover:text-white py-2">Contato</a>
+        <Link href="#" @click="closeMenu" class="block text-gray-400 hover:text-white py-2">Início</Link>
+        <Link href="#" @click="closeMenu" class="block text-gray-400 hover:text-white py-2">Cursos</Link>
+        <Link href="#" @click="closeMenu" class="block text-gray-400 hover:text-white py-2">Sobre</Link>
+        <Link href="#" @click="closeMenu" class="block text-gray-400 hover:text-white py-2">Contato</Link>
     </div>
 
     <main class="p-6 mx-auto max-w-screen-lg">
