@@ -17,16 +17,15 @@ class ListingFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => $this->faker->randomElement([1, 2]),
+            'user_id' => $this->faker->randomElement([1, 2, 3, 4, 5]),
             'title' => $this->faker->sentence(),
             'desc' => $this->faker->paragraph(12),
             'email' => $this->faker->unique()->safeEmail(),
             'link' => $this->faker->url(),
             'tags' =>$this->faker->randomElement([
-                'dev,game',
-                'game',
-                'biz,tech',
-                'tech,game,biz'
+                'vocabulary,grammar',
+                'grammar',
+                'vocabulary',
             ]),
             'approved' => 1,
         ];

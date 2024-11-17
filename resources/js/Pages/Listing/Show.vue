@@ -1,23 +1,46 @@
 <script setup>
+import { router } from "@inertiajs/vue3";
 import Container from "../../Components/Container.vue";
-import {router} from "@inertiajs/vue3";
-import SessionMessages from "../../Components/SessionMessages.vue";
 
 const props = defineProps({
     listing: Object,
     user: Object,
     canModify: Boolean,
-})
+});
 
 const deleteListing = () => {
-  if(confirm("Are you sure you want to delete this list?")){
-    router.delete(route("listing.destroy", props.listing.id))
-  }
-}
+    if (confirm("Are you sure?")) {
+        router.delete(route("listing.destroy", props.listing.id));
+    }
+};
+
+const toggleApprove = () => {
+    let msg = props.listing.approved
+        ? "Disapprove this listing?"
+        : "Approve this listing?";
+
+    if (confirm(msg)) {
+        router.put(route("admin.approve", props.listing.id));
+    }
+};
 </script>
 
 <template>
-    <Head title="- Listing Detail" />
+    <Head title="- Listing Detail"/>
+
+    <!-- Admin -->
+    <div
+        v-if="$page.props.auth.user && $page.props.auth.user.role === 'admin'"
+        class="bg-slate-800 text-white mb-6 p-6 rounded-md font-medium flex items-center justify-between"
+    >
+        <p>
+            This listing is {{ listing.approved ? "Approved" : "Disapproved" }}.
+        </p>
+        <button @click.prevent="toggleApprove" class="bg-slate-600 px-3 py-1 rounded-md">
+            {{ listing.approved ? 'Disapprove it' : 'Approve it' }}
+        </button>
+    </div>
+
     <Container class="flex gap-4">
         <div class="w-1/4 rounded-md overflow-hidden">
             <img
@@ -39,22 +62,20 @@ const deleteListing = () => {
 
                     <!-- Edit and delete buttons -->
                     <div v-if="canModify" class="pl-4 flex items-center gap-4">
-                      <Link
-                          :href="route('listing.edit', listing.id)"
-                          title="Editar"
-                          class="bg-blue-500 rounded-md text-white px-3 py-2 hover:outline outline-blue-500
-outline-offset-2"
-                      >
+                        <Link
+                            :href="route('listing.edit', listing.id)"
+                            class="bg-green-500 rounded-md text-white px-6 py-2 hover:outline outline-green-500 outline-offset-2"
+                        >
+                            Edit
+                        </Link>
 
-                        Edit
-                      </Link>
-                      <Link
-                          @click="deleteListing"
-                          class="bg-red-500 rounded-md text-white px-5 py-2 hover:outline outline-red-500
-outline-offset-2"
-                      >
-                        Delete
-                      </Link>
+                        <button
+                            @click="deleteListing"
+                            class="bg-red-500 rounded-md text-white px-6 py-2 hover:outline outline-red-500 outline-offset-2"
+                            type="button"
+                        >
+                            Delete
+                        </button>
                     </div>
                 </div>
 
@@ -78,7 +99,7 @@ outline-offset-2"
                 <!-- Link -->
                 <div v-if="listing.link" class="flex items-center mb-2 gap-2">
                     <i class="fa-solid fa-up-right-from-square"></i>
-                    <p>Link:</p>
+                    <p>External Link:</p>
                     <a :href="listing.link" target="_blank" class="text-link">
                         {{ listing.link }}
                     </a>
@@ -89,10 +110,10 @@ outline-offset-2"
                     <i class="fa-solid fa-user"></i>
                     <p>Listed by:</p>
                     <Link
-                        :href="route('home', {user_id: user.id})"
+                        :href="route('home', { user_id: user.id })"
                         class="text-link"
                     >
-                        {{user.name}}
+                        {{ user.name }}
                     </Link>
                 </div>
             </div>
@@ -112,7 +133,6 @@ outline-offset-2"
                     </div>
                 </div>
             </div>
-            <SessionMessages :message="message" color_txt="text-red-500"/>
         </div>
     </Container>
 </template>

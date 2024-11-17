@@ -1,14 +1,14 @@
 .PHONY: default
 
 # variables
-APP_NAME=trotz_web
+APP_NAME=mastering_english
 
 # Tasks
 default: run-docker-up
 
 run-docker-up:
 	@docker-compose up -d && \
-	docker-compose exec -T app-trotz bash -c "composer update && \
+	docker-compose exec -T app-mastering-english bash -c "composer update && \
 	npm install && \
 	npm run build && \
 	php artisan migrate && \
