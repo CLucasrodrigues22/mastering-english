@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "mastering-english/mastering-english",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "The mastering-english application web.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {

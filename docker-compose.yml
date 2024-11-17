@@ -1,7 +1,7 @@
 services:
     # api
-    app-trotz:
-        container_name: app-trotz
+    app-mastering-english:
+        container_name: app-mastering-english
         build:
             context: .
             dockerfile: Dockerfile
@@ -12,12 +12,12 @@ services:
             - ./:/var/www
             - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
         depends_on:
-            - db-trotz
-            - httpserver-trotz
+            - db-mastering-english
+            - httpserver-mastering-english
 
     # postgreSQL
-    db-trotz:
-        container_name: db-trotz
+    db-mastering-english:
+        container_name: db-mastering-english
         image: postgres:latest
         restart: always
         environment:
@@ -31,8 +31,8 @@ services:
             - "5432:5432"
 
     # nginx
-    httpserver-trotz:
-        container_name: httpserver-trotz
+    httpserver-mastering-english:
+        container_name: httpserver-mastering-english
         image: nginx:alpine
         restart: always
         ports:
