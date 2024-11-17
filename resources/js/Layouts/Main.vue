@@ -2,6 +2,7 @@
 import { switchTheme } from "../theme";
 import { usePage } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
+import Logo from "../Components/Logo.vue";
 
 // Acesso à página e ao usuário
 const page = usePage();
@@ -29,14 +30,14 @@ const closeMenu = () => {
         <nav class="p-4">
             <div class="max-w-7xl mx-auto flex justify-between items-center px-6">
                 <!-- Logo -->
-                <a href="#" class="text-2xl font-bold">Logo</a>
+                <Logo routeName="home" componentName="Home">Mastering English</Logo>
 
                 <!-- Menu para telas maiores -->
                 <div class="hidden md:flex space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-white">Início</a>
-                    <a href="#" class="text-gray-400 hover:text-white">Sobre</a>
-                    <a href="#" class="text-gray-400 hover:text-white">Serviços</a>
-                    <a href="#" class="text-gray-400 hover:text-white">Contato</a>
+                    <Link href="#" class="text-gray-400 hover:text-white">Início</Link>
+                    <Link href="#" class="text-gray-400 hover:text-white">Cursos</Link>
+                    <Link href="#" class="text-gray-400 hover:text-white">Sobre</Link>
+                    <Link href="#" class="text-gray-400 hover:text-white">Contato</Link>
                 </div>
 
                 <!-- Botão de perfil e alternar tema -->
