@@ -1,7 +1,7 @@
 .PHONY: default
 
 # variables
-APP_NAME=trotz_web
+APP_NAME=mastering_english
 
 # Tasks
 default: run-docker-up
