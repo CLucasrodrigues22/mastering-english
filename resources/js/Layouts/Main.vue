@@ -14,13 +14,18 @@ const show = ref(false);
 const toggleMenu = () => {
     show.value = !show.value;
 };
+
+// Função para fechar o menu quando um item for clicado
+const closeMenu = () => {
+    show.value = false;
+};
 </script>
 
 <template>
     <!-- Overlay para fechar o menu quando clicado fora -->
-    <div v-show="show" @click="show = false" class="fixed inset-0 z-40"></div>
+    <div v-show="show" @click="show = false" class="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
 
-    <header class="bg-slate-800 text-white">
+    <header class="bg-slate-800 text-white z-50">
         <nav class="p-4">
             <div class="max-w-7xl mx-auto flex justify-between items-center px-6">
                 <!-- Logo -->
@@ -54,9 +59,9 @@ const toggleMenu = () => {
     </header>
 
     <!-- Menu dropdown (para telas pequenas) -->
-    <div v-show="show" class="md:hidden bg-gray-700 text-white space-y-4 py-4 px-10">
+    <div v-show="show" class="fixed top-0 left-0 right-0 bg-gray-700 text-white z-50 py-4 px-10">
         <!-- Botão de perfil com destaque -->
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-4 mb-4">
             <div class="flex items-center">
                 <a href="#" class="block text-gray-400 hover:bg-blue-600 hover:text-white py-2 rounded-md transition-all duration-300">
                     Olá, Lucas Rod... <i class="fa-solid fa-arrow-right ml-2"></i>
@@ -69,10 +74,11 @@ const toggleMenu = () => {
             </div>
         </div>
 
-        <a href="#" class="block text-gray-400 hover:text-white">Home</a>
-        <a href="#" class="block text-gray-400 hover:text-white">Sobre</a>
-        <a href="#" class="block text-gray-400 hover:text-white">Serviços</a>
-        <a href="#" class="block text-gray-400 hover:text-white">Contato</a>
+        <!-- Itens do menu com fechamento ao clicar -->
+        <a href="#" @click="closeMenu" class="block text-gray-400 hover:text-white py-2">Home</a>
+        <a href="#" @click="closeMenu" class="block text-gray-400 hover:text-white py-2">Sobre</a>
+        <a href="#" @click="closeMenu" class="block text-gray-400 hover:text-white py-2">Serviços</a>
+        <a href="#" @click="closeMenu" class="block text-gray-400 hover:text-white py-2">Contato</a>
     </div>
 
     <main class="p-6 mx-auto max-w-screen-lg">
