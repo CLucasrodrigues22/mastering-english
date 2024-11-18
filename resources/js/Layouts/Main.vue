@@ -43,7 +43,7 @@ const closeProfileDropdown = () => {
         class="fixed inset-0 bg-opacity-50 z-40">
     </div>
 
-    <header class="bg-slate-800 text-white z-50">
+    <header class="bg-slate-800 text-white fixed top-0 left-0 w-full z-50 shadow-lg">
         <nav class="p-4">
             <div class="max-w-7xl mx-auto flex justify-between items-center px-6">
                 <!-- Logo -->
@@ -151,7 +151,7 @@ const closeProfileDropdown = () => {
         <Link href="#" class="block text-gray-200 hover:text-white py-2">Contato</Link>
     </div>
 
-    <main class="p-6 mx-auto max-w-screen-lg min-h-screen">
+    <main class="p-6 mx-auto max-w-screen-lg min-h-screen mt-16">
         <slot />
     </main>
 
