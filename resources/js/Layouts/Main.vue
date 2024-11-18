@@ -96,7 +96,7 @@ const closeProfileDropdown = () => {
                                 as="button"
                                 class="block px-4 py-2 rounded-md text-gray-200 hover:text-white mb-1"
                             >
-                                Logout
+                                Encerrar Sessão
                             </Link>
                         </div>
                     </div>
@@ -144,11 +144,56 @@ const closeProfileDropdown = () => {
             </div>
         </div>
 
-        <!-- Itens do menu com fechamento ao clicar -->
-        <Link :href="route('home')" class="block text-gray-200 hover:text-white py-2">Início</Link>
-        <Link href="#" class="block text-gray-200 hover:text-white py-2">Cursos</Link>
-        <Link href="#" class="block text-gray-200 hover:text-white py-2">Sobre</Link>
-        <Link href="#" class="block text-gray-200 hover:text-white py-2">Contato</Link>
+        <div class="grid grid-cols-3 gap-32">
+            <div>
+                <h2 class="font-bold mb-2 uppercase">Menu</h2>
+                <!-- Itens do menu institucional -->
+                <Link :href="route('home')" class="block text-gray-200 hover:text-white py-2">Início</Link>
+                <Link href="#" class="block text-gray-200 hover:text-white py-2">Cursos</Link>
+                <Link href="#" class="block text-gray-200 hover:text-white py-2">Sobre</Link>
+                <Link href="#" class="block text-gray-200 hover:text-white py-2">Contato</Link>
+            </div>
+            <div v-if="user">
+                <h2 class="font-bold mb-2 uppercase">Usuário</h2>
+                <!-- Itens do menu de sessão -->
+                <Link
+                    v-if="user.role === 'admin'"
+                    :href="route('admin.index')"
+                    class="block text-gray-200 hover:text-white py-2"
+                >
+                    Administrativo
+                </Link>
+                <Link
+                    :href="route('profile.edit')"
+                    class="block text-gray-200 hover:text-white py-2"
+                >
+                    Meu Perfil
+                </Link>
+                <Link
+                    :href="route('dashboard')"
+                    class="block text-gray-200 hover:text-white py-2"
+                >
+                    Dashboard
+                </Link>
+            </div>
+            <div v-if="user">
+                <h2 class="font-bold mb-2 uppercase">Conteúdo</h2>
+                <!-- Itens do menu de conteudo -->
+                <Link :href="route('listing.create')" class="block text-gray-200 hover:text-white py-2">Cursos</Link>
+                <Link href="#" class="block text-gray-200 hover:text-white py-2">Sobre</Link>
+                <Link href="#" class="block text-gray-200 hover:text-white py-2">Contato</Link>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4" v-if="user">
+            <Link
+                :href="route('logout')"
+                method="post"
+                as="button"
+                class="text-gray-200 hover:text-white bg-slate-600 p-1 rounded-lg w-full text-center"
+            >
+                Encerrar Sessão <i class="fa-solid fa-right-from-bracket"></i>
+            </Link>
+        </div>
     </div>
 
     <main class="p-6 mx-auto max-w-screen-lg min-h-screen mt-16">
