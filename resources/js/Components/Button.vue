@@ -15,7 +15,7 @@ defineProps({
 
 
 <template>
-    <button :class="`px-6 py-2 rounded-lg ${color_btn} ${color_text} disabled:bg-slate-300 disabled:cursor-wait`">
+    <button :class="`px-6 py-2 rounded-lg ${color_btn} ${color_text} disabled:bg-slate-300 disabled:cursor-wait w-full`">
         <slot/>
     </button>
 </template>

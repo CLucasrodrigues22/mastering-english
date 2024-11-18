@@ -45,7 +45,7 @@ const closeProfileDropdown = () => {
 
     <header class="bg-slate-800 text-white fixed top-0 left-0 w-full z-50 shadow-lg">
         <nav class="p-4">
-            <div class="max-w-7xl mx-auto flex justify-between items-center px-6">
+            <div class="max-w-7xl mx-auto flex justify-between items-center md:px-6">
                 <!-- Logo -->
                 <Logo routeName="home" componentName="Home">Mastering English</Logo>
 
@@ -112,7 +112,7 @@ const closeProfileDropdown = () => {
                 </div>
 
                 <!-- Menu para telas pequenas -->
-                <div class="md:hidden flex items-center">
+                <div class="md:hidden flex items-center mr-4">
                     <button @click="toggleMenu" class="text-gray-200 hover:text-white">
                         <i class="fas fa-bars"></i>
                     </button>
@@ -122,7 +122,7 @@ const closeProfileDropdown = () => {
     </header>
 
     <!-- Menu dropdown (para telas pequenas) -->
-    <div v-show="show" @click="closeMenu" class="fixed top-0 left-0 right-0 bg-gray-700 text-white z-50 py-4 px-10">
+    <div v-show="show" @click="closeMenu" class="fixed top-0 left-0 right-0 bg-gray-700 text-white z-50 py-[1.1rem] px-[2rem]">
         <!-- Botão de perfil com destaque -->
         <div class="grid grid-cols-2 gap-4 mb-4">
             <div v-if="user" class="flex items-center">
@@ -144,8 +144,8 @@ const closeProfileDropdown = () => {
             </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-32">
-            <div>
+        <div class="grid grid-cols-3 lg:gap-32 justify-center">
+            <div class="mr-12 text-left">
                 <h2 class="font-bold mb-2 uppercase">Menu</h2>
                 <!-- Itens do menu institucional -->
                 <Link :href="route('home')" class="block text-gray-200 hover:text-white py-2">Início</Link>
@@ -154,6 +154,13 @@ const closeProfileDropdown = () => {
                 <Link href="#" class="block text-gray-200 hover:text-white py-2">Contato</Link>
             </div>
             <div v-if="user">
+                <h2 class="font-bold mb-2 uppercase">Conteúdo</h2>
+                <!-- Itens do menu de conteudo -->
+                <Link :href="route('listing.create')" class="block text-gray-200 hover:text-white py-2">Cursos</Link>
+                <Link href="#" class="block text-gray-200 hover:text-white py-2">Sobre</Link>
+                <Link href="#" class="block text-gray-200 hover:text-white py-2">Contato</Link>
+            </div>
+            <div class="ml-4" v-if="user">
                 <h2 class="font-bold mb-2 uppercase">Usuário</h2>
                 <!-- Itens do menu de sessão -->
                 <Link
@@ -161,7 +168,7 @@ const closeProfileDropdown = () => {
                     :href="route('admin.index')"
                     class="block text-gray-200 hover:text-white py-2"
                 >
-                    Administrativo
+                    Controle
                 </Link>
                 <Link
                     :href="route('profile.edit')"
@@ -173,15 +180,8 @@ const closeProfileDropdown = () => {
                     :href="route('dashboard')"
                     class="block text-gray-200 hover:text-white py-2"
                 >
-                    Dashboard
+                    Painel
                 </Link>
-            </div>
-            <div v-if="user">
-                <h2 class="font-bold mb-2 uppercase">Conteúdo</h2>
-                <!-- Itens do menu de conteudo -->
-                <Link :href="route('listing.create')" class="block text-gray-200 hover:text-white py-2">Cursos</Link>
-                <Link href="#" class="block text-gray-200 hover:text-white py-2">Sobre</Link>
-                <Link href="#" class="block text-gray-200 hover:text-white py-2">Contato</Link>
             </div>
         </div>
         <div class="flex items-center space-x-4" v-if="user">

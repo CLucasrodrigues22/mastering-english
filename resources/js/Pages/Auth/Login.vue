@@ -4,11 +4,12 @@ import Container from "../../Components/Container.vue";
 import Title from "../../Components/Title.vue";
 import TextLink from "../../Components/TextLink.vue";
 import InputField from "../../Components/InputField.vue";
-import PrimaryBtn from "../../Components/Button.vue";
+import Button from "../../Components/Button.vue";
 import {useForm} from "@inertiajs/vue3";
 import ErrorMessages from "../../Components/ErrorMessages.vue";
 import CheckBox from "../../Components/CheckBox.vue";
 import SessionMessages from "../../Components/SessionMessages.vue";
+import FormOneCol from "../../Components/FormAuth.vue";
 
 const form = useForm({
     email: "",
@@ -27,7 +28,7 @@ const submit = () => {
 
 <template>
     <Head title=" - Login" />
-    <Container class="w-1/2">
+    <Container class="w-4/4 md:w-2/4">
         <div class="mb-8 text-center">
             <Title>
                 Login with a existent account
@@ -43,7 +44,7 @@ const submit = () => {
 
         <SessionMessages :status="message" />
 
-        <form @submit.prevent="submit" class="space-y-6">
+        <FormOneCol @submit.prevent="submit">
 
             <InputField
                 label="Email"
@@ -65,7 +66,7 @@ const submit = () => {
                 <TextLink routeName="password.request" label="Forgot Password?"/>
             </div>
 
-            <PrimaryBtn :disabled="form.processing">Login</PrimaryBtn>
-        </form>
+            <Button :disabled="form.processing">Login</Button>
+        </FormOneCol>
     </Container>
 </template>
