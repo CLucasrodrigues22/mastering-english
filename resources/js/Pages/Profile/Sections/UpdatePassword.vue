@@ -42,7 +42,7 @@ const submit = () => {
             <InputField
                 label="Current Password"
                 icon="key"
-                class="w-1/2"
+                class="md:w-1/2"
                 type="password"
                 v-model="form.current_password"
             />
@@ -50,7 +50,7 @@ const submit = () => {
             <InputField
                 label="New Password"
                 icon="key"
-                class="w-1/2"
+                class="md:w-1/2"
                 type="password"
                 v-model="form.password"
             />
@@ -58,7 +58,7 @@ const submit = () => {
             <InputField
                 label="Confirm New Password"
                 icon="key"
-                class="w-1/2"
+                class="md:w-1/2"
                 type="password"
                 v-model="form.password_confirmation"
             />

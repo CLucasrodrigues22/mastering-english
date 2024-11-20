@@ -39,25 +39,35 @@ const submit = () => {
         <ErrorMessages :errors="form.errors" />
 
         <div v-if="showConfirmPassword">
-            <form @submit.prevent="submit" class="flex items-end gap-4">
+            <form @submit.prevent="submit" class="flex flex-col md:flex-row md:items-end gap-4">
                 <InputField
                     label="Confirm Password"
                     icon="key"
                     type="password"
-                    class="w-1/2"
+                    class="md:w-1/2"
                     v-model="form.password"
                 />
 
-                <PrimaryBtn color_btn="bg-green-500" color_text="text-white" :disabled="form.processing">
-                    Confirm
-                </PrimaryBtn>
+                <div class="flex flex-col gap-4 md:flex-row">
+                    <PrimaryBtn
+                        class="w-full md:w-[8rem]"
+                        color_btn="bg-green-500"
+                        color_text="text-white"
+                        :disabled="form.processing"
+                    >
+                        Confirmar
+                    </PrimaryBtn>
 
-                <PrimaryBtn
-                    @click="showConfirmPassword = false"
-                    color_btn="bg-slate-500" color_text="text-white" :disabled="form.processing"
-                >
-                    Cancel
-                </PrimaryBtn>
+                    <PrimaryBtn
+                        @click="showConfirmPassword = false"
+                        class="w-full md:w-[8rem]"
+                        color_btn="bg-slate-500"
+                        color_text="text-white"
+                        :disabled="form.processing"
+                    >
+                        Cancel
+                    </PrimaryBtn>
+                </div>
             </form>
         </div>
 
@@ -65,6 +75,7 @@ const submit = () => {
             v-if="!showConfirmPassword"
             @click="showConfirmPassword = true"
             color_btn="bg-red-500" color_text="text-white" :disabled="form.processing"
+            class="md:w-[15rem]"
         >
             <i class="fa-solid fa-triangle-exclamation mr-2"></i>
             Delete Account
