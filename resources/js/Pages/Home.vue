@@ -4,6 +4,14 @@ import PaginationLink from "../Components/PaginationLink.vue";
 import InputField from "../Components/InputField.vue";
 import { router, useForm } from "@inertiajs/vue3";
 
+let searchParams = new URLSearchParams(window.location.search);
+
+const searchQuery = searchParams.get('search') || '';
+
+const clearSearch = () => {
+    searchParams = '';
+}
+
 const params = route().params;
 
 const props = defineProps({
@@ -38,17 +46,8 @@ const removeTag = (tag) => {
 
 <template>
     <Head title="- Latest Listings"/>
-    <!-- Exibe o botão Limpar Filtro apenas se algum filtro estiver ativo -->
-    <div v-if="params.search || params.user_id || params.tag">
-        <Link
-            class="px-2 py-2 rounded-md bg-gray-500 text-white items-center gap-2"
-            :href="route('home')"
-        >
-            Clear Filters
-            <i class="fa-solid fa-broom"></i>
-        </Link>
-    </div>
-    <div class="flex items-center justify-between mt-4 mb-4">
+
+    <div class="hidden md:flex items-center justify-between mt-4 mb-4">
         <div class="flex items-center gap-2">
             <!-- Exibir links de tags se houver -->
             <span class="md:m-1">Tags:</span>
@@ -97,6 +96,57 @@ const removeTag = (tag) => {
                     v-model="form.search"
                 />
             </form>
+            <p class="text-sm" v-if="searchQuery">
+                Você pesquisou por: <strong>{{searchQuery.substring(0, 12)}}...</strong>
+            </p>
+        </div>
+    </div>
+
+    <div class="md:hidden mb-6">
+        <div class="mx-auto w-4/4">
+            <form @submit.prevent="search">
+                <InputField
+                    type="search"
+                    label=""
+                    icon="magnifying-glass"
+                    placeholder="Search..."
+                    v-model="form.search"
+                    @change="clearSearch"
+                />
+            </form>
+            <p class="block text-sm" v-if="searchQuery">
+                Você pesquisou por: <strong>{{searchQuery.substring(0, 10)}}...</strong><Link :href="route('home', { ...params, search: null, page: null })"><i class="ml-1 fa-solid fa-xmark"></i></Link>
+            </p>
+        </div>
+
+        <!-- Exibir links de tags e autores se houver -->
+        <div class="mx-auto my-3 space-y-5 grid grid-cols-1">
+            <div v-if="params.tag">
+                <span class="md:m-1">Tags:</span>
+                <div class="flex gap-2">
+                    <div v-for="tag in params.tag.split(',')" :key="tag">
+                        <Link
+                            class="px-2 py-1 rounded-md bg-blue-500 text-white flex items-center gap-2 w-max"
+                            @click.prevent="removeTag(tag)"
+                            :href="route('home', { ...params, tag: params.tag.split(',').filter(t => t !== tag).join(','), page: null })"
+                        >
+                            {{ tag }}
+                            <i class="fa-solid fa-xmark"></i>
+                        </Link>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="params.user_id">
+                <span class="md:m-1">Author:</span>
+                <Link
+                    class="px-2 py-1 rounded-md bg-red-500 text-white flex items-center gap-2 w-max"
+                    :href="route('home', { ...params, user_id: null, page: null })"
+                >
+                    {{ username.substring(0, 10) }}...
+                    <i class="fa-solid fa-xmark"></i>
+                </Link>
+            </div>
         </div>
     </div>
 
@@ -111,5 +161,6 @@ const removeTag = (tag) => {
             <PaginationLink :paginator="listings"/>
         </div>
     </div>
+
     <div v-else class="text-center font-bold text-xl">There are no listings</div>
 </template>

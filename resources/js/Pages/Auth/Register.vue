@@ -7,6 +7,7 @@ import InputField from "../../Components/InputField.vue";
 import PrimaryBtn from "../../Components/Button.vue";
 import {useForm} from "@inertiajs/vue3";
 import ErrorMessages from "../../Components/ErrorMessages.vue";
+import FormOneCol from "../../Components/FormAuth.vue";
 
 const form = useForm({
     name: "",
@@ -24,7 +25,7 @@ const submit = () => {
 
 <template>
     <Head title=" - Register" />
-    <Container class="w-1/2">
+    <Container class="w-4/4 md:w-2/4">
         <div class="mb-8 text-center">
             <Title>
                 Register a new account
@@ -38,7 +39,9 @@ const submit = () => {
         <!-- Errors messages -->
         <ErrorMessages :errors="form.errors"/>
 
-        <form @submit.prevent="submit" class="space-y-6">
+        <FormOneCol
+            @submit.prevent="submit"
+        >
             <InputField
                 label="Name"
                 icon="id-badge"
@@ -75,6 +78,6 @@ const submit = () => {
             </p>
 
             <PrimaryBtn :disabled="form.processing">Register</PrimaryBtn>
-        </form>
+        </FormOneCol>
     </Container>
 </template>

@@ -48,14 +48,14 @@ const resendEmail = (e) => {
             <InputField
                 label="Name"
                 icon="id-badge"
-                class="w-1/2"
+                class="md:w-1/2"
                 v-model="form.name"
             />
 
             <InputField
                 label="Email"
                 icon="at"
-                class="w-1/2"
+                class="md:w-1/2"
                 v-model="form.email"
             />
 
